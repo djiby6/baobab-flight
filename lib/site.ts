@@ -1,5 +1,10 @@
+export const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.baobabflight.com"
+).replace(/\/+$/, "");
+
 export const site = {
   name: "Baobab Flight",
+  url: siteUrl,
   tagline: "Local Service, International Fun!",
   subSlogan: "Voyages sur-mesure & Billets d'avion",
   description:
