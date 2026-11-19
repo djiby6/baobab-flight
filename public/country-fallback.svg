@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-label="Image de destination indisponible">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1026"/>
+      <stop offset="0.55" stop-color="#251a4d"/>
+      <stop offset="1" stop-color="#0e7490"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="15%" r="75%">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="dune" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f8c471" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#f8c471" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#background)"/>
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+
+  <circle cx="1280" cy="210" r="120" fill="#22d3ee" opacity="0.16"/>
+  <circle cx="1280" cy="210" r="70" fill="#67e8f9" opacity="0.22"/>
+
+  <path d="M0 720 C 260 610 480 660 720 710 C 980 765 1220 700 1600 760 L1600 1000 L0 1000 Z" fill="url(#dune)"/>
+  <path d="M0 820 C 300 740 560 790 820 830 C 1080 870 1320 820 1600 860 L1600 1000 L0 1000 Z" fill="#0b1026" opacity="0.55"/>
+
+  <g fill="none" stroke="#a78bfa" stroke-linecap="round" opacity="0.5">
+    <path d="M180 760 C 210 700 190 640 150 590" stroke-width="10"/>
+    <path d="M180 690 C 230 660 270 630 300 580" stroke-width="7"/>
+    <path d="M180 690 C 130 660 90 630 60 590" stroke-width="7"/>
+  </g>
+
+  <text x="800" y="470" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="600" letter-spacing="1">
+    Baobab Flight
+  </text>
+  <text x="800" y="530" text-anchor="middle" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="26" letter-spacing="4">
+    IMAGE DE DESTINATION INDISPONIBLE
+  </text>
+</svg>
