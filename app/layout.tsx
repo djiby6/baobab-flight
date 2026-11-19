@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Inter, Manrope } from "next/font/google";
+import Script from "next/script";
 import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
@@ -61,6 +62,26 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           Aller au contenu
         </a>
         {children}
+        <Script
+          id="travelpayouts-drive"
+          strategy="afterInteractive"
+          data-noptimize="1"
+          data-cfasync="false"
+          data-wpfc-render="false"
+          data-no-defer="1"
+          data-cmp-ab="2"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                var script = document.createElement("script");
+                script.async = 1;
+                script.setAttribute("data-cmp-ab", "2");
+                script.src = 'https://tp-em.com/NjAzODgw.js?t=603880';
+                document.head.appendChild(script);
+              })();
+            `,
+          }}
+        />
       </body>
     </html>
   );
