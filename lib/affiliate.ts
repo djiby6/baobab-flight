@@ -12,7 +12,21 @@ export const TIQETS_AFFILIATE_URL =
 export const TRIP_AFFILIATE_URL =
   process.env.NEXT_PUBLIC_TRIP_AFFILIATE_URL?.trim() || "";
 
-export type AffiliateProvider = "kiwi" | "tiqets" | "trip" | "auto";
+export const AIRALO_AFFILIATE_URL =
+  process.env.NEXT_PUBLIC_AIRALO_AFFILIATE_URL?.trim() ||
+  "https://airalo.tpx.gr/Bl6ErlGV";
+
+export const WELCOME_PICKUPS_AFFILIATE_URL =
+  process.env.NEXT_PUBLIC_WELCOME_PICKUPS_AFFILIATE_URL?.trim() ||
+  "https://tpx.gr/t1UOxeBt";
+
+export type AffiliateProvider =
+  | "kiwi"
+  | "tiqets"
+  | "trip"
+  | "airalo"
+  | "welcomepickups"
+  | "auto";
 
 export type BuildAffiliateUrlParams = {
   provider?: AffiliateProvider;
@@ -41,6 +55,10 @@ function providerUrl(provider?: AffiliateProvider): string | undefined {
       return KIWI_AFFILIATE_URL || undefined;
     case "trip":
       return TRIP_AFFILIATE_URL || undefined;
+    case "airalo":
+      return AIRALO_AFFILIATE_URL || undefined;
+    case "welcomepickups":
+      return WELCOME_PICKUPS_AFFILIATE_URL || undefined;
     default:
       return undefined;
   }

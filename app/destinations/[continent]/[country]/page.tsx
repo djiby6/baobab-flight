@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   Banknote,
   CalendarDays,
+  Car,
   Check,
   CloudRain,
   CloudSun,
@@ -19,6 +20,8 @@ import {
   Sparkles,
   Stamp,
   Sun,
+  Ticket,
+  Wifi,
   type LucideIcon,
 } from "lucide-react";
 import { Eyebrow } from "@/components/ui/eyebrow";
@@ -521,7 +524,7 @@ export default async function CountryPage({ params }: CountryPageProps) {
                 </span>
                 <div>
                   <p className="font-display text-base font-semibold text-night">
-                    Envie d&apos;un itinÃ©raire qui relie ces expÃ©riences ?
+                    Envie d&apos;un itinéraire qui relie ces expériences ?
                   </p>
                   <p className="mt-1 text-sm text-night/55">
                     Nous construisons le fil rouge de votre voyage{" "}
@@ -529,31 +532,107 @@ export default async function CountryPage({ params }: CountryPageProps) {
                   </p>
                 </div>
               </div>
-              <div className="flex shrink-0 flex-wrap items-center gap-3">
-                <a
-                  href={buildAffiliateUrl({
-                    provider: "tiqets",
-                    destination: flight.arrivalCity,
-                    country: country.name,
-                    subId: country.slug,
-                  })}
-                  target="_blank"
-                  rel="noopener noreferrer sponsored"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-night/15 bg-white px-5 py-3 text-sm font-semibold text-night transition hover:border-violet/40 hover:text-violet"
-                >
-                  ActivitÃ©s & billets
-                  <ArrowUpRight className="h-4 w-4" />
-                </a>
-                <a
-                  href={adviceLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-brand-gradient px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet/25 transition hover:brightness-110"
-                >
-                  <WhatsAppIcon className="h-4 w-4" />
-                  CrÃ©er mon itinÃ©raire
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </a>
+              <a
+                href={adviceLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex shrink-0 items-center justify-center gap-2.5 rounded-full bg-brand-gradient px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet/25 transition hover:brightness-110"
+              >
+                <WhatsAppIcon className="h-4 w-4" />
+                Créer mon itinéraire
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </a>
+            </div>
+          </Reveal>
+
+          <Reveal delay={160}>
+            <div className="mt-4 rounded-[24px] border border-night/10 bg-white p-5 sm:p-6">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-violet">
+                Préparer votre arrivée
+              </p>
+              <h3 className="mt-2 font-display text-xl font-semibold text-night">
+                Services complémentaires du voyageur
+              </h3>
+              <p className="mt-1 text-sm text-night/55">
+                Anticipez l&apos;essentiel pour profiter de {country.name} dès
+                votre arrivée.
+              </p>
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                <div className="flex flex-col rounded-2xl border border-night/10 bg-cream p-4">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-violet/10 text-violet">
+                    <Wifi className="h-4 w-4" />
+                  </span>
+                  <p className="mt-3 font-display text-base font-semibold text-night">
+                    eSIM internationale
+                  </p>
+                  <p className="mt-1 flex-1 text-xs leading-relaxed text-night/55">
+                    Restez connecté dès l&apos;atterrissage avec Airalo.
+                  </p>
+                  <a
+                    href={buildAffiliateUrl({
+                      provider: "airalo",
+                      country: country.name,
+                      subId: `${country.slug}-esim`,
+                    })}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    className="mt-4 inline-flex items-center justify-center gap-2 rounded-full border border-night/15 bg-white px-4 py-2.5 text-xs font-semibold text-night transition hover:border-violet/40 hover:text-violet"
+                  >
+                    Acheter une eSIM
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                  </a>
+                </div>
+
+                <div className="flex flex-col rounded-2xl border border-night/10 bg-cream p-4">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-violet/10 text-violet">
+                    <Car className="h-4 w-4" />
+                  </span>
+                  <p className="mt-3 font-display text-base font-semibold text-night">
+                    Transfert aéroport
+                  </p>
+                  <p className="mt-1 flex-1 text-xs leading-relaxed text-night/55">
+                    Un chauffeur vous attend à l&apos;arrivée avec Welcome Pickups.
+                  </p>
+                  <a
+                    href={buildAffiliateUrl({
+                      provider: "welcomepickups",
+                      country: country.name,
+                      subId: `${country.slug}-transfer`,
+                    })}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    className="mt-4 inline-flex items-center justify-center gap-2 rounded-full border border-night/15 bg-white px-4 py-2.5 text-xs font-semibold text-night transition hover:border-violet/40 hover:text-violet"
+                  >
+                    Réserver un transfert
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                  </a>
+                </div>
+
+                <div className="flex flex-col rounded-2xl border border-night/10 bg-cream p-4">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-violet/10 text-violet">
+                    <Ticket className="h-4 w-4" />
+                  </span>
+                  <p className="mt-3 font-display text-base font-semibold text-night">
+                    Activités & billets sur place
+                  </p>
+                  <p className="mt-1 flex-1 text-xs leading-relaxed text-night/55">
+                    Réservez vos visites et attractions avec Tiqets.
+                  </p>
+                  <a
+                    href={buildAffiliateUrl({
+                      provider: "tiqets",
+                      country: country.name,
+                      subId: `${country.slug}-activities`,
+                    })}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    className="mt-4 inline-flex items-center justify-center gap-2 rounded-full border border-night/15 bg-white px-4 py-2.5 text-xs font-semibold text-night transition hover:border-violet/40 hover:text-violet"
+                  >
+                    Activités & billets
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                  </a>
+                </div>
               </div>
             </div>
           </Reveal>
