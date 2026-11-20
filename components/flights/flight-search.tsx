@@ -755,7 +755,7 @@ export function FlightSearch({
         .filter(Boolean)
         .join("-"),
     });
-    return url === "/vols" ? null : url;
+    return url;
   }
 
   return (
@@ -1135,14 +1135,14 @@ export function FlightSearch({
                     </a>
                     {(() => {
                       const partnerUrl = partnerUrlFor(routeConnection);
-                      return partnerUrl ? (
+                      return partnerUrl && partnerUrl !== "/vols" ? (
                         <a
                           href={partnerUrl}
                           target="_blank"
-                          rel="noopener noreferrer nofollow sponsored"
+                          rel="noopener noreferrer sponsored"
                           className="inline-flex items-center gap-1.5 text-xs font-semibold text-violet transition hover:underline"
                         >
-                          Voir l&apos;offre partenaire
+                          Rechercher sur Kiwi.com
                           <ExternalLink className="h-3.5 w-3.5" />
                         </a>
                       ) : null;
@@ -1251,14 +1251,14 @@ export function FlightSearch({
                     </Link>
                     {(() => {
                       const partnerUrl = partnerUrlFor(connection);
-                      return partnerUrl ? (
+                      return partnerUrl && partnerUrl !== "/vols" ? (
                         <a
                           href={partnerUrl}
                           target="_blank"
-                          rel="noopener noreferrer nofollow sponsored"
+                          rel="noopener noreferrer sponsored"
                           className="inline-flex items-center gap-1.5 text-xs font-semibold text-violet transition hover:underline"
                         >
-                          Voir l&apos;offre partenaire
+                          Rechercher sur Kiwi.com
                           <ExternalLink className="h-3.5 w-3.5" />
                         </a>
                       ) : null;

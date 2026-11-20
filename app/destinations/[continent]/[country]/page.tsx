@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -87,18 +87,18 @@ export async function generateMetadata({
   const { continent, country } = data;
 
   return {
-    title: `${country.name} — ${country.tagline}`,
+    title: `${country.name} â€” ${country.tagline}`,
     description: country.description,
     keywords: [
       country.name,
       continent.name,
       "voyage",
-      "séjour",
+      "sÃ©jour",
       "Baobab Flight",
       ...country.experiences.map((experience) => experience.title),
     ],
     openGraph: {
-      title: `${country.name} — ${country.tagline} | Baobab Flight`,
+      title: `${country.name} â€” ${country.tagline} | Baobab Flight`,
       description: country.description,
       type: "website",
       locale: "fr_FR",
@@ -126,15 +126,15 @@ export default async function CountryPage({ params }: CountryPageProps) {
     `Bonjour Baobab Flight, je souhaite un devis pour un voyage ${countryLabel}.`,
   );
   const adviceLink = whatsappLink(
-    `Bonjour Baobab Flight, je souhaite être conseillé pour un voyage ${countryLabel}.`,
+    `Bonjour Baobab Flight, je souhaite Ãªtre conseillÃ© pour un voyage ${countryLabel}.`,
   );
 
   const facts = [
-    { label: "Vol", value: `${departureCity} → ${flight.arrivalCity}`, icon: Plane },
+    { label: "Vol", value: `${departureCity} â†’ ${flight.arrivalCity}`, icon: Plane },
     { label: "Capitale", value: country.capital, icon: MapPin },
     { label: "Monnaie", value: country.currency, icon: Banknote },
     { label: "Langue", value: country.language, icon: Languages },
-    { label: "Période idéale", value: idealPeriod.months, icon: CalendarDays },
+    { label: "PÃ©riode idÃ©ale", value: idealPeriod.months, icon: CalendarDays },
     { label: "Temps de vol", value: country.flightTime, icon: Plane },
     { label: "Visa", value: country.visa, icon: Stamp },
   ];
@@ -211,11 +211,11 @@ export default async function CountryPage({ params }: CountryPageProps) {
                 className="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-cyan transition hover:text-white"
               >
                 <Plane className="h-3.5 w-3.5" />
-                Toutes les liaisons au départ de {departureCity}
+                Toutes les liaisons au dÃ©part de {departureCity}
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </Link>
 
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                 <a
                   href={reserveLink}
                   target="_blank"
@@ -223,8 +223,23 @@ export default async function CountryPage({ params }: CountryPageProps) {
                   className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-brand-gradient px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-violet/30 transition hover:brightness-110"
                 >
                   <WhatsAppIcon className="h-4 w-4" />
-                  Réserver sur WhatsApp
+                  RÃ©server sur WhatsApp
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </a>
+                <a
+                  href={buildAffiliateUrl({
+                    provider: "kiwi",
+                    destination: flight.arrivalCity,
+                    country: country.name,
+                    origin: departureCity,
+                    subId: `${country.slug}-vol`,
+                  })}
+                  target="_blank"
+                  rel="noopener noreferrer sponsored"
+                  className="inline-flex items-center justify-center gap-2.5 rounded-full border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:border-white/40 hover:bg-white/10"
+                >
+                  <Plane className="h-4 w-4" />
+                  Rechercher un vol
                 </a>
                 <Link
                   href="#experiences"
@@ -254,8 +269,8 @@ export default async function CountryPage({ params }: CountryPageProps) {
                 {country.name} en images
               </p>
               <p className="relative mt-1.5 text-xs leading-relaxed text-white/55">
-                Une première immersion visuelle pour découvrir l&apos;atmosphère
-                du pays avant même de boucler votre valise.
+                Une premiÃ¨re immersion visuelle pour dÃ©couvrir l&apos;atmosphÃ¨re
+                du pays avant mÃªme de boucler votre valise.
               </p>
             </div>
           </div>
@@ -270,7 +285,7 @@ export default async function CountryPage({ params }: CountryPageProps) {
               <div>
                 <Eyebrow>L&apos;essence du pays</Eyebrow>
                 <h2 className="mt-5 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-night sm:text-5xl">
-                  Un voyage au cœur de{" "}
+                  Un voyage au cÅ“ur de{" "}
                   <span className="text-gradient-brand">{country.name}</span>.
                 </h2>
 
@@ -303,7 +318,7 @@ export default async function CountryPage({ params }: CountryPageProps) {
                 <div className="relative">
                   <Eyebrow light>Pourquoi partir avec Baobab Flight</Eyebrow>
                   <h3 className="mt-4 font-display text-2xl font-semibold leading-tight sm:text-3xl">
-                    Votre voyage {countryLabel}, orchestré de A à Z.
+                    Votre voyage {countryLabel}, orchestrÃ© de A Ã  Z.
                   </h3>
                   <p className="mt-4 text-sm leading-relaxed text-white/65">
                     {country.whyGo}
@@ -316,10 +331,10 @@ export default async function CountryPage({ params }: CountryPageProps) {
                       </span>
                       <span>
                         <strong className="font-semibold text-white">
-                          Vols optimisés.
+                          Vols optimisÃ©s.
                         </strong>{" "}
-                        Tarifs négociés, correspondances intelligentes et
-                        itinéraire sur-mesure.
+                        Tarifs nÃ©gociÃ©s, correspondances intelligentes et
+                        itinÃ©raire sur-mesure.
                       </span>
                     </li>
                     <li className="flex items-start gap-3 text-sm leading-relaxed text-white/70">
@@ -330,7 +345,7 @@ export default async function CountryPage({ params }: CountryPageProps) {
                         <strong className="font-semibold text-white">
                           Expertise locale.
                         </strong>{" "}
-                        Adresses vérifiées, guides francophones et expériences
+                        Adresses vÃ©rifiÃ©es, guides francophones et expÃ©riences
                         confidentielles.
                       </span>
                     </li>
@@ -342,7 +357,7 @@ export default async function CountryPage({ params }: CountryPageProps) {
                         <strong className="font-semibold text-white">
                           Conciergerie WhatsApp 24/7.
                         </strong>{" "}
-                        Un conseiller dédié, du premier message au dernier
+                        Un conseiller dÃ©diÃ©, du premier message au dernier
                         transfert.
                       </span>
                     </li>
@@ -355,7 +370,7 @@ export default async function CountryPage({ params }: CountryPageProps) {
                     className="group mt-7 inline-flex items-center justify-center gap-2.5 rounded-full bg-white px-5 py-3 text-sm font-semibold text-night transition hover:bg-cyan hover:text-night"
                   >
                     <WhatsAppIcon className="h-4 w-4" />
-                    Parler à un conseiller
+                    Parler Ã  un conseiller
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </a>
                 </div>
@@ -374,11 +389,11 @@ export default async function CountryPage({ params }: CountryPageProps) {
                 <Eyebrow>Quand partir ?</Eyebrow>
                 <h2 className="mt-5 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-night sm:text-5xl">
                   Les meilleures{" "}
-                  <span className="text-gradient-brand">périodes</span>.
+                  <span className="text-gradient-brand">pÃ©riodes</span>.
                 </h2>
               </div>
               <p className="max-w-sm text-[15px] leading-relaxed text-night/55">
-                Météo, affluence et budget : nos repères pour choisir le bon
+                MÃ©tÃ©o, affluence et budget : nos repÃ¨res pour choisir le bon
                 moment pour partir {countryLabel}.
               </p>
             </div>
@@ -423,27 +438,27 @@ export default async function CountryPage({ params }: CountryPageProps) {
           </div>
 
           <p className="mt-6 text-xs leading-relaxed text-night/45">
-            Ces repères sont indicatifs : la météo et les conditions varient
-            selon les régions et les années. Nous affinons les dates avec vous.
+            Ces repÃ¨res sont indicatifs : la mÃ©tÃ©o et les conditions varient
+            selon les rÃ©gions et les annÃ©es. Nous affinons les dates avec vous.
           </p>
         </div>
       </section>
 
-      {/* Expériences incontournables */}
+      {/* ExpÃ©riences incontournables */}
       <section id="experiences" className="bg-cream py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <Reveal>
             <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-2xl">
-                <Eyebrow>À ne pas manquer</Eyebrow>
+                <Eyebrow>Ã€ ne pas manquer</Eyebrow>
                 <h2 className="mt-5 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-night sm:text-5xl">
-                  Trois expériences{" "}
+                  Trois expÃ©riences{" "}
                   <span className="text-gradient-brand">signatures</span>.
                 </h2>
               </div>
               <p className="max-w-sm text-[15px] leading-relaxed text-night/55">
-                Les incontournables qui donnent à votre voyage sa saveur unique,
-                à intégrer dans votre itinéraire.
+                Les incontournables qui donnent Ã  votre voyage sa saveur unique,
+                Ã  intÃ©grer dans votre itinÃ©raire.
               </p>
             </div>
           </Reveal>
@@ -472,7 +487,7 @@ export default async function CountryPage({ params }: CountryPageProps) {
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <span className="absolute right-5 top-5 rounded-full border border-white/25 bg-night/45 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/85 backdrop-blur">
-                      Étape {String(index + 1).padStart(2, "0")}
+                      Ã‰tape {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
 
@@ -506,7 +521,7 @@ export default async function CountryPage({ params }: CountryPageProps) {
                 </span>
                 <div>
                   <p className="font-display text-base font-semibold text-night">
-                    Envie d&apos;un itinéraire qui relie ces expériences ?
+                    Envie d&apos;un itinÃ©raire qui relie ces expÃ©riences ?
                   </p>
                   <p className="mt-1 text-sm text-night/55">
                     Nous construisons le fil rouge de votre voyage{" "}
@@ -523,10 +538,10 @@ export default async function CountryPage({ params }: CountryPageProps) {
                     subId: country.slug,
                   })}
                   target="_blank"
-                  rel="noopener noreferrer nofollow sponsored"
+                  rel="noopener noreferrer sponsored"
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-night/15 bg-white px-5 py-3 text-sm font-semibold text-night transition hover:border-violet/40 hover:text-violet"
                 >
-                  Activités & billets
+                  ActivitÃ©s & billets
                   <ArrowUpRight className="h-4 w-4" />
                 </a>
                 <a
@@ -536,7 +551,7 @@ export default async function CountryPage({ params }: CountryPageProps) {
                   className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-brand-gradient px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet/25 transition hover:brightness-110"
                 >
                   <WhatsAppIcon className="h-4 w-4" />
-                  Créer mon itinéraire
+                  CrÃ©er mon itinÃ©raire
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </a>
               </div>
@@ -545,7 +560,7 @@ export default async function CountryPage({ params }: CountryPageProps) {
         </div>
       </section>
 
-      {/* Conseils + réservation rapide */}
+      {/* Conseils + rÃ©servation rapide */}
       <section className="relative overflow-hidden bg-night py-24 text-white lg:py-32">
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-violet/20 blur-[130px]" />
@@ -556,14 +571,14 @@ export default async function CountryPage({ params }: CountryPageProps) {
           <div className="grid gap-10 lg:grid-cols-[1fr_0.92fr] lg:items-start lg:gap-14">
             <Reveal>
               <div>
-                <Eyebrow light>Conseils clés</Eyebrow>
+                <Eyebrow light>Conseils clÃ©s</Eyebrow>
                 <h2 className="mt-5 font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl">
                   Voyagez l&apos;esprit{" "}
                   <span className="text-gradient-hero">tranquille</span>.
                 </h2>
                 <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-white/60">
-                  Nos conseils pour préparer votre séjour {countryLabel} et
-                  profiter pleinement de chaque étape.
+                  Nos conseils pour prÃ©parer votre sÃ©jour {countryLabel} et
+                  profiter pleinement de chaque Ã©tape.
                 </p>
 
                 <ul className="mt-8 space-y-4">

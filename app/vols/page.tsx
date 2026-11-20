@@ -6,6 +6,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { FlightSearch } from "@/components/flights/flight-search";
 import { DestinationCta } from "@/components/destinations/destination-cta";
 import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
+import { buildAffiliateUrl } from "@/lib/affiliate";
 import {
   defaultDepartureCode,
   departureAirports,
@@ -66,7 +67,7 @@ export default function FlightsPage() {
               un conseiller Baobab Flight en un clic.
             </p>
 
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center sm:flex-wrap">
               <a
                 href={whatsappLink(
                   "Bonjour Baobab Flight, je souhaite un devis de billet d'avion. Pouvez-vous m'aider ?",
@@ -78,6 +79,15 @@ export default function FlightsPage() {
                 <WhatsAppIcon className="h-4 w-4" />
                 Demander un devis vol
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </a>
+              <a
+                href={buildAffiliateUrl({ provider: "kiwi", subId: "vols-hero" })}
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                className="inline-flex items-center justify-center gap-2.5 rounded-full border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:border-white/40 hover:bg-white/10"
+              >
+                <Plane className="h-4 w-4" />
+                Rechercher un vol sur Kiwi.com
               </a>
               <Link
                 href="#liaisons"

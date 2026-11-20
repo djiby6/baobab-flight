@@ -2,11 +2,15 @@
   process.env.NEXT_PUBLIC_TRAVELPAYOUTS_MARKER || "603880";
 
 export const KIWI_AFFILIATE_URL =
-  process.env.NEXT_PUBLIC_KIWI_AFFILIATE_URL?.trim();
+  process.env.NEXT_PUBLIC_KIWI_AFFILIATE_URL?.trim() ||
+  "https://kiwi.tpx.gr/5fiNmZvF";
 
 export const TIQETS_AFFILIATE_URL =
   process.env.NEXT_PUBLIC_TIQETS_AFFILIATE_URL?.trim() ||
   "https://tiqets.tpx.gr/KFvBJhRi";
+
+export const TRIP_AFFILIATE_URL =
+  process.env.NEXT_PUBLIC_TRIP_AFFILIATE_URL?.trim() || "";
 
 export type AffiliateProvider = "kiwi" | "tiqets" | "trip" | "auto";
 
@@ -31,12 +35,12 @@ function withSubId(url: string, subId?: string): string {
 function providerUrl(provider?: AffiliateProvider): string | undefined {
   switch (provider) {
     case "tiqets":
-      return TIQETS_AFFILIATE_URL;
+      return TIQETS_AFFILIATE_URL || undefined;
     case "kiwi":
     case "auto":
-      return KIWI_AFFILIATE_URL;
+      return KIWI_AFFILIATE_URL || undefined;
     case "trip":
-      return undefined;
+      return TRIP_AFFILIATE_URL || undefined;
     default:
       return undefined;
   }
