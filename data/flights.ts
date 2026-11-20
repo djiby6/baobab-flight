@@ -1,9 +1,8 @@
-import {
+﻿import {
   continents,
   type Continent,
   type Country,
 } from "@/data/destinations";
-import { buildAffiliateUrl } from "@/lib/affiliate";
 import { flightRequestLink } from "@/lib/flight-request";
 
 export type AirportOption = {
@@ -131,14 +130,14 @@ function buildAirportOption(
   const code = airportCodesBySlug[country.slug] || country.slug.slice(0, 3).toUpperCase();
   const airportName = airportNameBySlug[country.slug] || `${city} Airport`;
   const highlights = (country.tagline || "")
-    .split("·")
+    .split("Â·")
     .map((part) => part.trim())
     .filter(Boolean);
   return {
     code,
     city,
     airportName,
-    label: `${city} — ${country.name} (${code})`,
+    label: `${city} â€” ${country.name} (${code})`,
     country: country.name,
     countrySlug: country.slug,
     continentSlug: continent.slug,
@@ -189,15 +188,15 @@ export const quickDepartures = departureAirports
 
 /**
  * Point d'extension pour les URLs partenaires officielles (deeplinks,
- * offres validées, etc.). Renseigner ici l'URL reçue après revue
+ * offres validÃ©es, etc.). Renseigner ici l'URL reÃ§ue aprÃ¨s revue
  * Travelpayouts ; la logique de construction (marker, fallback) est
- * centralisée dans `lib/affiliate.ts`.
+ * centralisÃ©e dans `lib/affiliate.ts`.
  */
 export const flightAffiliateUrls: Record<string, string> = {};
 export const indirectFlightSlugs: Record<string, boolean> = {};
 export const baggageExcludedSlugs: Record<string, boolean> = {};
 
-const FALLBACK_FLIGHT_TIME = "durée communiquée sur demande";
+const FALLBACK_FLIGHT_TIME = "durÃ©e communiquÃ©e sur demande";
 
 export type FlightConnection = {
   countrySlug: string;
@@ -213,7 +212,7 @@ export type FlightConnection = {
   baggageIncluded: boolean;
   href: string;
   whatsappHref: string;
-  /** URL partenaire explicite à utiliser avec `buildAffiliateUrl` (si disponible). */
+  /** URL partenaire explicite Ã  utiliser avec `buildAffiliateUrl` (si disponible). */
   affiliateUrl?: string;
 };
 
@@ -252,17 +251,7 @@ export function getFlightConnection(
     baggageIncluded: !baggageExcludedSlugs[country.slug],
     href: `/destinations/${continent.slug}/${country.slug}`,
     whatsappHref: "",
-    ...(explicitAffiliateUrl
-      ? {
-          affiliateUrl: buildAffiliateUrl({
-            affiliateUrl: explicitAffiliateUrl,
-            destination: arrivalCity,
-            country: country.name,
-            iataCode: arrivalAirportCode,
-            originIataCode: departureAirportCode,
-          }),
-        }
-      : {}),
+    ...(explicitAffiliateUrl ? { affiliateUrl: explicitAffiliateUrl } : {}),
   };
 
   return {

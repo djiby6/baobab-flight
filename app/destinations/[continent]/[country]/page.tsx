@@ -38,6 +38,7 @@ import {
   type BestPeriodTone,
 } from "@/data/destinations";
 import { departureCity, getFlightConnection } from "@/data/flights";
+import { buildAffiliateUrl } from "@/lib/affiliate";
 import { cn } from "@/lib/cn";
 import { site, whatsappLink } from "@/lib/site";
 
@@ -513,16 +514,32 @@ export default async function CountryPage({ params }: CountryPageProps) {
                   </p>
                 </div>
               </div>
-              <a
-                href={adviceLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex shrink-0 items-center justify-center gap-2.5 rounded-full bg-brand-gradient px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet/25 transition hover:brightness-110"
-              >
-                <WhatsAppIcon className="h-4 w-4" />
-                Créer mon itinéraire
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </a>
+              <div className="flex shrink-0 flex-wrap items-center gap-3">
+                <a
+                  href={buildAffiliateUrl({
+                    provider: "tiqets",
+                    destination: flight.arrivalCity,
+                    country: country.name,
+                    subId: country.slug,
+                  })}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow sponsored"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-night/15 bg-white px-5 py-3 text-sm font-semibold text-night transition hover:border-violet/40 hover:text-violet"
+                >
+                  Activités & billets
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+                <a
+                  href={adviceLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-brand-gradient px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet/25 transition hover:brightness-110"
+                >
+                  <WhatsAppIcon className="h-4 w-4" />
+                  Créer mon itinéraire
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </a>
+              </div>
             </div>
           </Reveal>
         </div>

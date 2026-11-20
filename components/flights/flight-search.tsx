@@ -21,7 +21,7 @@ import {
   Users,
 } from "lucide-react";
 import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
-import { buildAffiliateUrl, hasExternalAffiliateBase } from "@/lib/affiliate";
+import { buildAffiliateUrl } from "@/lib/affiliate";
 import { cn } from "@/lib/cn";
 import {
   generateAvailableFlights,
@@ -742,18 +742,20 @@ export function FlightSearch({
   }
 
   function partnerUrlFor(connection: FlightConnection): string | null {
-    if (!hasExternalAffiliateBase && !connection.affiliateUrl) return null;
-    return buildAffiliateUrl({
+    const url = buildAffiliateUrl({
+      provider: "kiwi",
       affiliateUrl: connection.affiliateUrl,
       destination: connection.arrivalCity,
       country: connection.countryName,
-      iataCode: connection.arrivalAirportCode,
-      originIataCode: departure.code,
+      origin: departure.city,
       departureDate,
       returnDate: tripType === "round-trip" ? returnDate : undefined,
       passengers: travelers,
-      tripType,
+      subId: [departure.code, connection.arrivalAirportCode ?? connection.countrySlug]
+        .filter(Boolean)
+        .join("-"),
     });
+    return url === "/vols" ? null : url;
   }
 
   return (

@@ -1,85 +1,67 @@
-export const TRAVELPAYOUTS_MARKER =
+﻿export const TRAVELPAYOUTS_MARKER =
   process.env.NEXT_PUBLIC_TRAVELPAYOUTS_MARKER || "603880";
 
-export const AFFILIATE_BASE_URL =
-  process.env.NEXT_PUBLIC_AFFILIATE_BASE_URL?.trim() || "";
+export const KIWI_AFFILIATE_URL =
+  process.env.NEXT_PUBLIC_KIWI_AFFILIATE_URL?.trim();
 
-export const hasExternalAffiliateBase = AFFILIATE_BASE_URL.length > 0;
+export const TIQETS_AFFILIATE_URL =
+  process.env.NEXT_PUBLIC_TIQETS_AFFILIATE_URL?.trim() ||
+  "https://tiqets.tpx.gr/KFvBJhRi";
 
-export type AffiliateTripType = "round-trip" | "one-way";
+export type AffiliateProvider = "kiwi" | "tiqets" | "trip" | "auto";
 
 export type BuildAffiliateUrlParams = {
-  /**
-   * URL partenaire explicite (fiche pays, offre, deeplink officiel, etc.).
-   * Point d'extension prioritaire, prêt à recevoir l'URL officielle une
-   * fois la revue Travelpayouts terminée.
-   */
-  affiliateUrl?: string;
+  provider?: AffiliateProvider;
   destination?: string;
   country?: string;
-  iataCode?: string;
-  originIataCode?: string;
+  origin?: string;
   departureDate?: string;
   returnDate?: string;
   passengers?: number;
-  adults?: number;
-  tripType?: AffiliateTripType;
+  affiliateUrl?: string;
+  subId?: string;
 };
 
-function isAbsoluteUrl(value: string): boolean {
-  return /^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(value);
+function withSubId(url: string, subId?: string): string {
+  if (!subId) return url;
+  const separator = url.includes("?") ? "&" : "?";
+  return `${url}${separator}sub_id=${encodeURIComponent(subId)}`;
 }
 
-function setIfPresent(
-  url: URL,
-  key: string,
-  value: string | number | undefined,
-) {
-  if (value === undefined || value === null || value === "") return;
-  url.searchParams.set(key, String(value));
+function providerUrl(provider?: AffiliateProvider): string | undefined {
+  switch (provider) {
+    case "tiqets":
+      return TIQETS_AFFILIATE_URL;
+    case "kiwi":
+    case "auto":
+      return KIWI_AFFILIATE_URL;
+    case "trip":
+      return undefined;
+    default:
+      return undefined;
+  }
 }
 
 /**
  * Construit une URL de réservation/partenaire réutilisable.
  *
- * - Utilise le marker Travelpayouts ({@link TRAVELPAYOUTS_MARKER}, 603880 par défaut).
- * - Priorité à `affiliateUrl` explicite, puis à `NEXT_PUBLIC_AFFILIATE_BASE_URL`.
- * - Fallback sûr vers `/vols` si aucune URL partenaire externe n'est configurée.
+ * Repli : `affiliateUrl` explicite > lien partenaire spécifique configuré
+ * (selon `provider`) > `/vols`.
+ * Si un `subId` est fourni et qu'un lien partenaire (explicite ou configuré)
+ * est utilisé, `sub_id` est ajouté sans inventer d'autres paramètres deep-link.
  */
 export function buildAffiliateUrl(
   params: BuildAffiliateUrlParams = {},
 ): string {
   const explicit = params.affiliateUrl?.trim();
-  const base = explicit || AFFILIATE_BASE_URL || "/vols";
-  const passengers = params.passengers ?? params.adults;
-
-  let url: URL;
-  let relative = false;
-
-  if (isAbsoluteUrl(base)) {
-    url = new URL(base);
-  } else {
-    relative = base.startsWith("/");
-    url = new URL(base, "https://baobabflight.local");
+  if (explicit) {
+    return withSubId(explicit, params.subId);
   }
 
-  setIfPresent(url, "marker", TRAVELPAYOUTS_MARKER);
-  setIfPresent(url, "destination", params.destination ?? params.country);
-  setIfPresent(url, "country", params.country);
-  setIfPresent(url, "iata", params.iataCode);
-  setIfPresent(url, "origin_iata", params.originIataCode);
-  setIfPresent(url, "departure_date", params.departureDate);
-  setIfPresent(url, "return_date", params.returnDate);
-  setIfPresent(url, "passengers", passengers);
-  setIfPresent(url, "trip_type", params.tripType);
-
-  if (isAbsoluteUrl(base)) {
-    return url.toString();
+  const configured = providerUrl(params.provider)?.trim();
+  if (configured) {
+    return withSubId(configured, params.subId);
   }
 
-  if (relative) {
-    return `${url.pathname}${url.search}${url.hash}`;
-  }
-
-  return url.toString();
+  return "/vols";
 }
