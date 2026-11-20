@@ -21,6 +21,7 @@ import {
   Users,
 } from "lucide-react";
 import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
+import { buildAffiliateUrl, hasExternalAffiliateBase } from "@/lib/affiliate";
 import { cn } from "@/lib/cn";
 import {
   generateAvailableFlights,
@@ -740,6 +741,21 @@ export function FlightSearch({
     };
   }
 
+  function partnerUrlFor(connection: FlightConnection): string | null {
+    if (!hasExternalAffiliateBase && !connection.affiliateUrl) return null;
+    return buildAffiliateUrl({
+      affiliateUrl: connection.affiliateUrl,
+      destination: connection.arrivalCity,
+      country: connection.countryName,
+      iataCode: connection.arrivalAirportCode,
+      originIataCode: departure.code,
+      departureDate,
+      returnDate: tripType === "round-trip" ? returnDate : undefined,
+      passengers: travelers,
+      tripType,
+    });
+  }
+
   return (
     <div id="resultats" className="scroll-mt-24">
       <div className="mb-7 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
@@ -1115,17 +1131,20 @@ export function FlightSearch({
                       <WhatsAppIcon className="h-3.5 w-3.5" />
                       Demander le tarif exact
                     </a>
-                    {routeConnection.affiliateUrl ? (
-                      <a
-                        href={routeConnection.affiliateUrl}
-                        target="_blank"
-                        rel="noopener noreferrer nofollow sponsored"
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-violet transition hover:underline"
-                      >
-                        Voir l&apos;offre partenaire
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </a>
-                    ) : null}
+                    {(() => {
+                      const partnerUrl = partnerUrlFor(routeConnection);
+                      return partnerUrl ? (
+                        <a
+                          href={partnerUrl}
+                          target="_blank"
+                          rel="noopener noreferrer nofollow sponsored"
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-violet transition hover:underline"
+                        >
+                          Voir l&apos;offre partenaire
+                          <ExternalLink className="h-3.5 w-3.5" />
+                        </a>
+                      ) : null;
+                    })()}
                   </div>
                 </div>
               </article>
@@ -1228,17 +1247,20 @@ export function FlightSearch({
                       Voir la destination
                       <ArrowUpRight className="h-3.5 w-3.5" />
                     </Link>
-                    {connection.affiliateUrl ? (
-                      <a
-                        href={connection.affiliateUrl}
-                        target="_blank"
-                        rel="noopener noreferrer nofollow sponsored"
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-violet transition hover:underline"
-                      >
-                        Voir l&apos;offre partenaire
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </a>
-                    ) : null}
+                    {(() => {
+                      const partnerUrl = partnerUrlFor(connection);
+                      return partnerUrl ? (
+                        <a
+                          href={partnerUrl}
+                          target="_blank"
+                          rel="noopener noreferrer nofollow sponsored"
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-violet transition hover:underline"
+                        >
+                          Voir l&apos;offre partenaire
+                          <ExternalLink className="h-3.5 w-3.5" />
+                        </a>
+                      ) : null;
+                    })()}
                   </div>
                 </div>
               </article>

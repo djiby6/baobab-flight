@@ -3,6 +3,7 @@ import {
   type Continent,
   type Country,
 } from "@/data/destinations";
+import { buildAffiliateUrl } from "@/lib/affiliate";
 import { flightRequestLink } from "@/lib/flight-request";
 
 export type AirportOption = {
@@ -186,6 +187,12 @@ export const quickDepartures = departureAirports
   .filter((airport) => ["CMN", "DSS", "CDG"].includes(airport.code))
   .sort((a, b) => a.rank - b.rank);
 
+/**
+ * Point d'extension pour les URLs partenaires officielles (deeplinks,
+ * offres validées, etc.). Renseigner ici l'URL reçue après revue
+ * Travelpayouts ; la logique de construction (marker, fallback) est
+ * centralisée dans `lib/affiliate.ts`.
+ */
 export const flightAffiliateUrls: Record<string, string> = {};
 export const indirectFlightSlugs: Record<string, boolean> = {};
 export const baggageExcludedSlugs: Record<string, boolean> = {};
@@ -206,6 +213,7 @@ export type FlightConnection = {
   baggageIncluded: boolean;
   href: string;
   whatsappHref: string;
+  /** URL partenaire explicite à utiliser avec `buildAffiliateUrl` (si disponible). */
   affiliateUrl?: string;
 };
 
@@ -227,7 +235,7 @@ export function getFlightConnection(
 ): FlightConnection {
   const arrivalCity = capitalCity(country);
   const flightTime = country.flightTime?.trim() || FALLBACK_FLIGHT_TIME;
-  const affiliateUrl = flightAffiliateUrls[country.slug];
+  const explicitAffiliateUrl = flightAffiliateUrls[country.slug];
   const arrivalAirportCode = airportCodesBySlug[country.slug];
 
   const connection: FlightConnection = {
@@ -244,7 +252,17 @@ export function getFlightConnection(
     baggageIncluded: !baggageExcludedSlugs[country.slug],
     href: `/destinations/${continent.slug}/${country.slug}`,
     whatsappHref: "",
-    ...(affiliateUrl ? { affiliateUrl } : {}),
+    ...(explicitAffiliateUrl
+      ? {
+          affiliateUrl: buildAffiliateUrl({
+            affiliateUrl: explicitAffiliateUrl,
+            destination: arrivalCity,
+            country: country.name,
+            iataCode: arrivalAirportCode,
+            originIataCode: departureAirportCode,
+          }),
+        }
+      : {}),
   };
 
   return {
